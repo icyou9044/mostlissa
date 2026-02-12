@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mostafa ❤️ Melissa</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(circle at top, #ff9a9e, #fad0c4, #fbc2eb);
+      color: white;
+      text-align: center;
+    }
+
+    section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1, h2 {
+      margin: 10px 0 20px;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.25);
+    }
+
+    .name {
+      font-size: clamp(2.5rem, 6vw, 5rem);
+      font-weight: 800;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .quote {
+      font-size: 1.5rem;
+      max-width: 800px;
+      opacity: 0;
+      animation: fadeQuote 18s infinite;
+    }
+
+    .quote:nth-child(1) { animation-delay: 0s; }
+    .quote:nth-child(2) { animation-delay: 6s; }
+    .quote:nth-child(3) { animation-delay: 12s; }
+
+    @keyframes fadeQuote {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      30% { opacity: 1; }
+      40% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    .letter {
+      max-width: 800px;
+      background: rgba(255,255,255,0.15);
+      padding: 30px;
+      border-radius: 16px;
+      font-size: 1.3rem;
+      line-height: 1.8;
+      animation: fadeIn 3s ease forwards;
+    }
+
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+
+    .valentine button {
+      font-size: 1.5rem;
+      padding: 15px 40px;
+      border-radius: 40px;
+      border: none;
+      margin: 10px;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    }
+
+    .yes { background: linear-gradient(45deg, #ff4b7d, #ff9a9e); color: white; }
+    .no { background: linear-gradient(45deg, #4b5563, #9ca3af); color: white; }
+
+    .hearts, .roses {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .heart, .cry, .rose {
+      position: absolute;
+      bottom: -20px;
+      font-size: 24px;
+      animation: rise 8s linear infinite;
+    }
+
+    @keyframes rise {
+      from { transform: translateY(0); opacity: 0; }
+      10% { opacity: 1; }
+      to { transform: translateY(-110vh); opacity: 0; }
+    }
+
+    canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    audio { display: none; }
+
+    .secret {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+
+    .secret-box {
+      background: rgba(255,255,255,0.15);
+      padding: 40px;
+      border-radius: 20px;
+      max-width: 600px;
+      font-size: 1.6rem;
+      line-height: 1.7;
+      animation: fadeIn 1s ease forwards;
+    }
+  </style>
+</head>
+<body>
+
+    <audio id="bgMusic" autoplay loop>
+    <source src="https://cdn.pixabay.com/download/audio/2023/03/14/audio_0d8d4b5c5f.mp3" type="audio/mpeg">
+  </audio>
+
+  <button id="musicBtn" style="position:fixed;top:15px;right:15px;z-index:10;border:none;border-radius:50px;padding:10px 16px;background:rgba(255,255,255,0.25);color:white;font-size:14px;cursor:pointer;backdrop-filter:blur(6px)">🎵 Music: On</button>
+
+  <canvas id="fireworks"></canvas>
+  <div class="hearts" id="hearts"></div>
+  <div class="roses" id="roses"></div>
+
+  <!-- HERO -->
+  <section>
+    <h1 class="name">Mostafa ❤️ Melissa</h1>
+  </section>
+
+  <!-- QUOTES -->
+  <section>
+    <h2>Love Quotes</h2>
+    <div class="quote">"I found my forever the day I found you."</div>
+    <div class="quote">"You are my today and all of my tomorrows."</div>
+    <div class="quote">"In your arms is my favorite place to be."</div>
+  </section>
+
+  <!-- LOVE LETTER -->
+  <section>
+    <h2>My Love Letter</h2>
+    <div class="letter">
+      My dearest Melissa,<br><br>
+      Every moment with you feels like magic. Your smile lights up my world, and your love gives my life meaning. I am endlessly grateful for every laugh, every hug, and every heartbeat we share. You are my dream come true, my soulmate, my forever love. ❤️
+      <br><br>
+      Always yours,<br>
+      Mostafa
+    </div>
+  </section>
+
+  <!-- VALENTINE -->
+  <section class="valentine">
+    <h2>Will You Be My Valentine? 💘</h2>
+    <div>
+      <button class="yes" onclick="sayYes()">YES 💖</button>
+      <button class="no" onclick="sayNo()">NO 😢</button>
+    </div>
+  </section>
+
+  <!-- SECRET MESSAGE -->
+  <div class="secret" id="secret">
+    <div class="secret-box">
+      💖 Surprise! 💖<br><br>
+      You are the most beautiful part of my life. Every second with you is a blessing, and I can't wait to create endless memories together. I love you more than words can ever say. 🌹
+    </div>
+  </div>
+
+  <script>
+    const hearts = document.getElementById('hearts');
+    const roses = document.getElementById('roses');
+    const secret = document.getElementById('secret');
+
+    const emojis = ['❤️','💖','💘','💕','💗','💓'];
+    const cries = ['😭','😢','💔','🥺'];
+    const roseEmojis = ['🌹','🌸','🌺'];
+
+    setInterval(() => spawn(emojis, 'heart', hearts), 350);
+    setInterval(() => spawn(roseEmojis, 'rose', roses), 450);
+
+    function spawn(arr, cls, parent){
+      const el = document.createElement('div');
+      el.className = cls;
+      el.textContent = arr[Math.floor(Math.random()*arr.length)];
+      el.style.left = Math.random()*100 + 'vw';
+      el.style.fontSize = 18 + Math.random()*26 + 'px';
+      el.style.animationDuration = 6 + Math.random()*6 + 's';
+      parent.appendChild(el);
+      setTimeout(()=>el.remove(),12000);
+    }
+
+    const canvas = document.getElementById('fireworks');
+    const ctx = canvas.getContext('2d');
+    function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
+    addEventListener('resize', resize); resize();
+
+    function fireworks(){
+      for(let i=0;i<180;i++){
+        ctx.fillStyle = `hsl(${Math.random()*360},100%,70%)`;
+        ctx.beginPath();
+        ctx.arc(Math.random()*canvas.width, Math.random()*canvas.height, 3, 0, Math.PI*2);
+        ctx.fill();
+      }
+      setTimeout(()=>ctx.clearRect(0,0,canvas.width,canvas.height),1400);
+    }
+
+    function sayYes(){
+      fireworks();
+      secret.style.display = 'flex';
+    }
+
+    function sayNo(){
+      alert('Oh nooo 😭 My heart...');
+      for(let i=0;i<40;i++) spawn(cries,'cry',hearts);
+    }
+
+    secret.onclick = () => secret.style.display = 'none';
+  </script>
+</body>
+</html>
